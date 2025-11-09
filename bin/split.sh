@@ -29,4 +29,4 @@ remote invoker git@github.com:alazzi-az/laravel-dapr-invoker.git
 split 'src/Foundation' foundation
 split 'src/Publisher' publisher
 split 'src/Listener' listener
-split 'src/Invoker' Invoker
+split 'src/Invoker' invoker

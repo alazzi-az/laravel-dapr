@@ -33,7 +33,7 @@ fi
 git tag "$VERSION"
 git push origin "$VERSION"
 
-for REMOTE in foundation publisher listener; do
+for REMOTE in foundation publisher listener invoker; do
     echo ""
     echo "Tagging $REMOTE..."
 
