@@ -11,7 +11,7 @@ class ServiceProvider extends BaseServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/dapr.php', 'dapr');
+        $this->mergeConfigFrom(__DIR__.'/../config/dapr-events.php', 'dapr');
 
         $this->app->singleton(EventPipeline::class, function ($app) {
             return new EventPipeline($app->make(Pipeline::class));
