@@ -30,7 +30,7 @@ return [
     ],
     'health' => [
         'enabled' => env('DAPR_HEALTH_ENABLED', true),
-        'middleware' => env('DAPR_HEALTH_MIDDLEWARE', '')->split(',') ?: [], // optional
+        'middleware' => [], // optional
         // return type: 'empty' or 'json'
         'response' => env('DAPR_HEALTH_RESPONSE', 'empty'),
         // a callable class you can override for custom checks (optional)
