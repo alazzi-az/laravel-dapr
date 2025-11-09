@@ -76,7 +76,7 @@
                 "AlazziAz\\LaravelDaprInvoker\\ServiceProvider"
             ],
             "aliases": {
-                "DaprInvoke": "AlazziAz\\Dapr\\Invoker\\Facades\\DaprInvoke",
+                "DaprInvoke": "AlazziAz\\Dapr\\Invoker\\Facades\\DaprInvoke"
             }
         }
     },
