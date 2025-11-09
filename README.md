@@ -37,11 +37,9 @@ Looking for a full end-to-end demo? Check out the companion repo: [mohammedazman
 
 ## Service invocation
 
-Install the invoker package if you need Dapr service invocation alongside pub/sub:
+You can invoke any laravel route/method via Dapr service invocation. To do this, create an invokable handler:
 
-```bash
-composer require alazziaz/laravel-dapr-invoker
-```
+```php
 
 Register invokable handlers in your Laravel routes:
 
@@ -62,6 +60,7 @@ $response = dapr_invoke('billing-service', 'health.check');
 
 Set `invocation.auto_register` to `true` in `config/dapr-invocation.php` if you want the default `/dapr/invoke/{method}` route to be registered automatically when the service provider boots.
 
+See [`laravel-invoker'](https://github.com/alazzi-az/laravel-dapr-invoker/README.md') for more details.
 ## PHP compatibility with `dapr/php-sdk`
 
 The official Dapr PHP SDK only ships development builds right now and its `dev-main` branch targets PHP 8.4. Until upstream tags a stable release, you have two practical options when installing these packages:
