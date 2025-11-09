@@ -1,5 +1,5 @@
 <?php
 
-use AlazziAz\DaprEventsPublisher\Tests\TestCase;
+use AlazziAz\LaravelDaprPublisher\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

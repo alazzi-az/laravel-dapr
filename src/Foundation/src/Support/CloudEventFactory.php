@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Support;
+namespace AlazziAz\LaravelDapr\Support;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
@@ -17,7 +17,7 @@ class CloudEventFactory
 
     public function shouldWrap(): bool
     {
-        return (bool) $this->config->get('dapr-events.serialization.wrap_cloudevent', true);
+        return (bool) $this->config->get('dapr.serialization.wrap_cloudevent', true);
     }
 
     public function make(object $event, array $payload, array $metadata = []): array
@@ -29,7 +29,7 @@ class CloudEventFactory
         return [
             'specversion' => '1.0',
             'id' => $metadata['id'] ?? (string) Str::uuid(),
-            'source' => $metadata['source'] ?? config('app.url', 'laravel://dapr-events'),
+            'source' => $metadata['source'] ?? config('app.url', 'laravel://dapr'),
             'type' => $metadata['type'] ?? $event::class,
             'time' => $this->formatTime($metadata['time'] ?? Carbon::now()),
             'datacontenttype' => 'application/json',

@@ -1,8 +1,8 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Consuming;
+namespace AlazziAz\LaravelDapr\Http\Controllers;
 
-use AlazziAz\DaprEvents\Support\SubscriptionRegistry;
+use AlazziAz\LaravelDapr\Support\SubscriptionRegistry;
 use Illuminate\Http\JsonResponse;
 
 class SubscriptionController

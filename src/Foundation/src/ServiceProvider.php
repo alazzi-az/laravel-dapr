@@ -1,17 +1,17 @@
 <?php
 
-namespace AlazziAz\DaprEvents;
+namespace AlazziAz\LaravelDapr;
 
-use AlazziAz\DaprEvents\Console\InstallCommand;
-use AlazziAz\DaprEvents\Console\ListSubscriptionsCommand;
-use AlazziAz\DaprEvents\Contracts\EventPublisher as EventPublisherContract;
-use AlazziAz\DaprEvents\Support\CloudEventFactory;
-use AlazziAz\DaprEvents\Support\EventPayloadSerializer;
-use AlazziAz\DaprEvents\Support\IngressContext;
-use AlazziAz\DaprEvents\Support\IngressSignatureVerifier;
-use AlazziAz\DaprEvents\Support\RouteMacros;
-use AlazziAz\DaprEvents\Support\SubscriptionRegistry;
-use AlazziAz\DaprEvents\Support\TopicResolver;
+use AlazziAz\LaravelDapr\Console\InstallCommand;
+use AlazziAz\LaravelDapr\Console\ListSubscriptionsCommand;
+use AlazziAz\LaravelDapr\Contracts\EventPublisher as EventPublisherContract;
+use AlazziAz\LaravelDapr\Support\CloudEventFactory;
+use AlazziAz\LaravelDapr\Support\EventPayloadSerializer;
+use AlazziAz\LaravelDapr\Support\IngressContext;
+use AlazziAz\LaravelDapr\Support\IngressSignatureVerifier;
+use AlazziAz\LaravelDapr\Support\RouteMacros;
+use AlazziAz\LaravelDapr\Support\SubscriptionRegistry;
+use AlazziAz\LaravelDapr\Support\TopicResolver;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use RuntimeException;
@@ -21,8 +21,8 @@ class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/dapr-events.php' => config_path('dapr-events.php'),
-        ], 'dapr-events-config');
+            __DIR__ . '/../config/dapr.php' => config_path('dapr.php'),
+        ], 'dapr-config');
 
         RouteMacros::register();
         $this->loadRoutesFrom(__DIR__ . '/../routes/dapr.php');
@@ -35,7 +35,7 @@ class ServiceProvider extends BaseServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../stubs/dapr-listener.stub' => $this->app->basePath('stubs/dapr-listener.stub'),
-            ], 'dapr-events-stubs');
+            ], 'dapr-stubs');
         }
 
         $this->registerLocalEventBridge();
@@ -43,7 +43,7 @@ class ServiceProvider extends BaseServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/dapr-events.php', 'dapr-events');
+        $this->mergeConfigFrom(__DIR__ . '/../config/dapr.php', 'dapr');
 
         $this->app->singleton(TopicResolver::class);
         $this->app->singleton(EventPayloadSerializer::class);
@@ -64,14 +64,14 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->bindIf(EventPublisherContract::class, function () {
             throw new RuntimeException(
-                'No Dapr event publisher is bound. Install alazziaz/dapr-events-publisher or bind your own.'
+                'No Dapr event publisher is bound. Install alazziaz/dapr-publisher or bind your own.'
             );
         });
     }
 
     protected function registerLocalEventBridge(): void
     {
-        if (!$this->app['config']->get('dapr-events.publish_local_events', true)) {
+        if (!$this->app['config']->get('dapr.publish_local_events', true)) {
             return;
         }
 

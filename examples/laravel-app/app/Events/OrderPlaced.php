@@ -2,7 +2,7 @@
 
 namespace Example\App\Events;
 
-use AlazziAz\DaprEvents\Attributes\Topic;
+use AlazziAz\LaravelDapr\Attributes\Topic;
 
 #[Topic('orders.placed')]
 class OrderPlaced

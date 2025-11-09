@@ -1,5 +1,5 @@
 {
-    "name": "alazziaz/laravel-dapr-events",
+    "name": "alazziaz/laravel-dapr",
     "description": "Laravel-friendly tooling for publishing and consuming events over Dapr Pub/Sub.",
     "keywords": [
         "laravel",
@@ -7,7 +7,8 @@
         "pubsub",
         "events",
         "publisher",
-        "listener"
+        "listener",
+        "invoker"
     ],
     "type": "library",
     "license": "MIT",
@@ -25,7 +26,11 @@
     "replace": {
         "alazziaz/laravel-dapr-foundation": "self.version",
         "alazziaz/laravel-dapr-publisher": "self.version",
-        "alazziaz/laravel-dapr-listener": "self.version"
+        "alazziaz/laravel-dapr-listener": "self.version",
+        "alazziaz/laravel-dapr-invoker": "self.version"
+    },
+    "conflict": {
+        "alazziaz/laravel-dapr-events": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.6",
@@ -35,36 +40,44 @@
     },
     "autoload": {
         "psr-4": {
-            "AlazziAz\\DaprEvents\\": "src/Foundation/src/",
-            "AlazziAz\\DaprEventsPublisher\\": "src/Publisher/src/",
-            "AlazziAz\\DaprEventsListener\\": "src/Listener/src/"
+            "AlazziAz\\LaravelDapr\\": "src/Foundation/src/",
+            "AlazziAz\\LaravelDaprPublisher\\": "src/Publisher/src/",
+            "AlazziAz\\LaravelDaprListener\\": "src/Listener/src/",
+            "AlazziAz\\LaravelDaprInvoker\\": "src/Invoker/src/"
         },
         "files": [
-            "src/Publisher/src/Support/helpers.php"
+            "src/Publisher/src/Support/helpers.php",
+            "src/Invoker/src/Support/helpers.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "AlazziAz\\DaprEvents\\Tests\\": "src/Foundation/tests/",
-            "AlazziAz\\DaprEventsPublisher\\Tests\\": "src/Publisher/tests/",
-            "AlazziAz\\DaprEventsListener\\Tests\\": "src/Listener/tests/"
+            "AlazziAz\\LaravelDapr\\Tests\\": "src/Foundation/tests/",
+            "AlazziAz\\LaravelDaprPublisher\\Tests\\": "src/Publisher/tests/",
+            "AlazziAz\\LaravelDaprListener\\Tests\\": "src/Listener/tests/",
+            "AlazziAz\\LaravelDaprInvoker\\Tests\\": "src/Invoker/tests/"
         }
     },
     "scripts": {
         "test": [
             "cd src/Foundation && composer test",
             "cd src/Publisher && composer test",
-            "cd src/Listener && composer test"
+            "cd src/Listener && composer test",
+            "cd src/Invoker && composer test"
         ],
         "analyse": "phpstan analyse"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "AlazziAz\\DaprEvents\\ServiceProvider",
-                "AlazziAz\\DaprEventsPublisher\\ServiceProvider",
-                "AlazziAz\\DaprEventsListener\\ServiceProvider"
-            ]
+                "AlazziAz\\LaravelDapr\\ServiceProvider",
+                "AlazziAz\\LaravelDaprPublisher\\ServiceProvider",
+                "AlazziAz\\LaravelDaprListener\\ServiceProvider",
+                "AlazziAz\\LaravelDaprInvoker\\ServiceProvider"
+            ],
+            "aliases": {
+                "DaprInvoke": "AlazziAz\\Dapr\\Invoker\\Facades\\DaprInvoke",
+            }
         }
     },
     "suggest": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Support;
+namespace AlazziAz\LaravelDapr\Support;
 
-use AlazziAz\DaprEvents\Attributes\Topic;
+use AlazziAz\LaravelDapr\Attributes\Topic;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Str;
 use ReflectionAttribute;
@@ -53,7 +53,7 @@ class TopicResolver
 
     protected function fromConfig(string $className): ?string
     {
-        $topics = $this->config->get('dapr-events.topics', []);
+        $topics = $this->config->get('dapr.topics', []);
 
         return $topics[$className] ?? null;
     }

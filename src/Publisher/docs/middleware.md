@@ -1,6 +1,6 @@
 # Publisher Middleware
 
-Default middleware pipeline (`config/dapr-events.php`):
+Default middleware pipeline (`config/dapr.php`):
 
 | Middleware | Responsibility |
 | --- | --- |

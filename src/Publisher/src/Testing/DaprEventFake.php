@@ -1,8 +1,8 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher\Testing;
+namespace AlazziAz\LaravelDaprPublisher\Testing;
 
-use AlazziAz\DaprEvents\Contracts\EventPublisher as EventPublisherContract;
+use AlazziAz\LaravelDapr\Contracts\EventPublisher as EventPublisherContract;
 use Illuminate\Contracts\Foundation\Application;
 use PHPUnit\Framework\Assert;
 

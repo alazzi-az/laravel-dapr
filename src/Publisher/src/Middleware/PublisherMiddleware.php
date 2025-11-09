@@ -1,8 +1,8 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher\Middleware;
+namespace AlazziAz\LaravelDaprPublisher\Middleware;
 
-use AlazziAz\DaprEventsPublisher\Publishing\EventContext;
+use AlazziAz\LaravelDaprPublisher\Publishing\EventContext;
 use Closure;
 
 interface PublisherMiddleware

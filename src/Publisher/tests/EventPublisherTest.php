@@ -1,13 +1,13 @@
 <?php
 
-use AlazziAz\DaprEventsPublisher\EventPublisher;
+use AlazziAz\LaravelDaprPublisher\EventPublisher;
 use Dapr\Client\DaprClient;
 use Illuminate\Support\Facades\Config;
 use Mockery as m;
 
 beforeEach(function () {
-    Config::set('dapr-events.publisher.middleware', []);
-    Config::set('dapr-events.serialization.wrap_cloudevent', false);
+    Config::set('dapr.publisher.middleware', []);
+    Config::set('dapr.serialization.wrap_cloudevent', false);
 });
 
 it('publishes serialized payload to dapr', function () {
@@ -29,8 +29,8 @@ it('publishes serialized payload to dapr', function () {
 });
 
 it('runs configured middleware before publishing', function () {
-    Config::set('dapr-events.publisher.middleware', [
-        \AlazziAz\DaprEventsPublisher\Middleware\AddTimestamp::class,
+    Config::set('dapr.publisher.middleware', [
+        \AlazziAz\LaravelDaprPublisher\Middleware\AddTimestamp::class,
     ]);
 
     $client = m::mock(DaprClient::class);

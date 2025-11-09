@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Support;
+namespace AlazziAz\LaravelDapr\Support;
 
 use Illuminate\Contracts\Config\Repository;
 
@@ -22,7 +22,7 @@ class SubscriptionRegistry
         protected TopicResolver $topics,
         protected Repository $config
     ) {
-        $this->pubsubName = $config->get('dapr-events.pubsub.name', 'pubsub');
+        $this->pubsubName = $config->get('dapr.pubsub.name', 'pubsub');
     }
 
     public function registerEvent(string $eventClass, ?string $topic = null, ?string $route = null, array $metadata = []): Subscription
@@ -50,7 +50,7 @@ class SubscriptionRegistry
 
     public function ensureConfigSubscriptions(): void
     {
-        $configured = $this->config->get('dapr-events.topics', []);
+        $configured = $this->config->get('dapr.topics', []);
 
         foreach ($configured as $event => $topic) {
             $this->registerEvent($event, $topic);
@@ -82,7 +82,7 @@ class SubscriptionRegistry
 
     protected function buildRouteName(string $topic): string
     {
-        $prefix = trim($this->config->get('dapr-events.http.prefix', 'dapr'), '/');
+        $prefix = trim($this->config->get('dapr.http.prefix', 'dapr'), '/');
         $normalizedTopic = str_replace('.', '/', $topic);
 
         return $prefix.'/ingress/'.$normalizedTopic;

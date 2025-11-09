@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher\Publishing;
+namespace AlazziAz\LaravelDaprPublisher\Publishing;
 
 class EventContext
 {

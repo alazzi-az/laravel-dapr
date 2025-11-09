@@ -1,9 +1,9 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher\Tests;
+namespace AlazziAz\LaravelDaprPublisher\Tests;
 
-use AlazziAz\DaprEvents\ServiceProvider as BaseProvider;
-use AlazziAz\DaprEventsPublisher\ServiceProvider;
+use AlazziAz\LaravelDapr\ServiceProvider as BaseProvider;
+use AlazziAz\LaravelDaprPublisher\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra

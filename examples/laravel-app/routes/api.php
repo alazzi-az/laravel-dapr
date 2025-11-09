@@ -1,6 +1,6 @@
 <?php
 
-use AlazziAz\DaprEvents\Support\RouteMacros;
+use AlazziAz\LaravelDapr\Support\RouteMacros;
 use Illuminate\Support\Facades\Route;
 
 RouteMacros::register();

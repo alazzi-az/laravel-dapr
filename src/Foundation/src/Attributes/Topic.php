@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Attributes;
+namespace AlazziAz\LaravelDapr\Attributes;
 
 use Attribute;
 

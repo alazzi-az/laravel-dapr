@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Contracts;
+namespace AlazziAz\LaravelDapr\Contracts;
 
 interface ProvidesPayload
 {

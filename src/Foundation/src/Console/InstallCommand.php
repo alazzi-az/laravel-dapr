@@ -1,21 +1,21 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Console;
+namespace AlazziAz\LaravelDapr\Console;
 
-use AlazziAz\DaprEvents\ServiceProvider;
+use AlazziAz\LaravelDapr\ServiceProvider;
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'dapr-events:install {--force : Overwrite any existing configuration file}';
+    protected $signature = 'dapr:install {--force : Overwrite any existing configuration file}';
 
     protected $description = 'Publish the Dapr events configuration, routes, and stubs.';
 
     public function handle(): int
     {
         $tags = [
-            'dapr-events-config',
-            'dapr-events-stubs',
+            'dapr-config',
+            'dapr-stubs',
         ];
 
         foreach ($tags as $tag) {

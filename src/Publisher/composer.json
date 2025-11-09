@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AlazziAz\\DaprEventsPublisher\\": "src/"
+            "AlazziAz\\LaravelDaprPublisher\\": "src/"
         },
         "files": [
             "src/Support/helpers.php"
@@ -27,13 +27,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "AlazziAz\\DaprEventsPublisher\\Tests\\": "tests/"
+            "AlazziAz\\LaravelDaprPublisher\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "AlazziAz\\DaprEventsPublisher\\ServiceProvider"
+                "AlazziAz\\LaravelDaprPublisher\\ServiceProvider"
             ]
         }
     },

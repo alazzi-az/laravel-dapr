@@ -1,8 +1,8 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Support;
+namespace AlazziAz\LaravelDapr\Support;
 
-use AlazziAz\DaprEvents\Contracts\ProvidesPayload;
+use AlazziAz\LaravelDapr\Contracts\ProvidesPayload;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use JsonSerializable;

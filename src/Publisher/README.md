@@ -16,7 +16,7 @@ composer require alazziaz/laravel-dapr-publisher
 ## EventPublisher
 
 ```php
-$publisher = app(\AlazziAz\DaprEventsPublisher\EventPublisher::class);
+$publisher = app(\AlazziAz\LaravelDaprPublisher\EventPublisher::class);
 $publisher->publish(new App\Events\OrderPlaced($id, $amount));
 ```
 
@@ -29,7 +29,7 @@ Publishing behaviour:
 
 ## Middleware pipeline
 
-Configure middleware in `config/dapr-events.php` under `publisher.middleware`:
+Configure middleware in `config/dapr.php` under `publisher.middleware`:
 
 - `AddCorrelationId` – propagates/creates a correlation ID and logs it.
 - `AddTenantContext` – forwards `X-Tenant-ID` or the authenticated user's tenant identifier.
@@ -42,7 +42,7 @@ You can push additional middleware classes to mutate metadata or payloads before
 Use the fake to assert publishing:
 
 ```php
-$fake = \AlazziAz\DaprEventsPublisher\Testing\DaprEventFake::register(app());
+$fake = \AlazziAz\LaravelDaprPublisher\Testing\DaprEventFake::register(app());
 
 event(new App\Events\OrderPlaced('123', 9900));
 

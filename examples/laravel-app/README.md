@@ -19,7 +19,7 @@ This miniature application demonstrates how the Dapr Events packages plug into a
 2. Publish config and stubs:
 
    ```bash
-   php artisan dapr-events:install
+   php artisan dapr:install
    ```
 
 3. Start Laravel and Dapr sidecar (from the project root):

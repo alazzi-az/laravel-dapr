@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Support;
+namespace AlazziAz\LaravelDapr\Support;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
@@ -14,16 +14,16 @@ class IngressSignatureVerifier
 
     public function verify(Request $request): bool
     {
-        if (! $this->config->get('dapr-events.http.verify_signature', false)) {
+        if (! $this->config->get('dapr.http.verify_signature', false)) {
             return true;
         }
 
-        $secret = $this->config->get('dapr-events.http.signature_secret');
+        $secret = $this->config->get('dapr.http.signature_secret');
         if (! $secret) {
             return false;
         }
 
-        $headerName = $this->config->get('dapr-events.http.signature_header', 'x-dapr-signature');
+        $headerName = $this->config->get('dapr.http.signature_header', 'x-dapr-signature');
         $provided = $request->headers->get($headerName);
 
         if (! $provided) {

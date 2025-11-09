@@ -24,7 +24,9 @@ git pull origin "$CURRENT_BRANCH"
 remote foundation git@github.com:alazzi-az/laravel-dapr-foundation.git
 remote publisher git@github.com:alazzi-az/laravel-dapr-publisher.git
 remote listener git@github.com:alazzi-az/laravel-dapr-listener.git
+remote invoker git@github.com:alazzi-az/laravel-dapr-invoker.git
 
 split 'src/Foundation' foundation
 split 'src/Publisher' publisher
 split 'src/Listener' listener
+split 'src/Invoker' Invoker

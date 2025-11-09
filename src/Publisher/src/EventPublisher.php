@@ -1,13 +1,13 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher;
+namespace AlazziAz\LaravelDaprPublisher;
 
-use AlazziAz\DaprEvents\Contracts\EventPublisher as EventPublisherContract;
-use AlazziAz\DaprEvents\Support\CloudEventFactory;
-use AlazziAz\DaprEvents\Support\EventPayloadSerializer;
-use AlazziAz\DaprEvents\Support\TopicResolver;
-use AlazziAz\DaprEventsPublisher\Publishing\EventContext;
-use AlazziAz\DaprEventsPublisher\Publishing\EventPipeline;
+use AlazziAz\LaravelDapr\Contracts\EventPublisher as EventPublisherContract;
+use AlazziAz\LaravelDapr\Support\CloudEventFactory;
+use AlazziAz\LaravelDapr\Support\EventPayloadSerializer;
+use AlazziAz\LaravelDapr\Support\TopicResolver;
+use AlazziAz\LaravelDaprPublisher\Publishing\EventContext;
+use AlazziAz\LaravelDaprPublisher\Publishing\EventPipeline;
 use Dapr\Client\DaprClient;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Log;
@@ -29,9 +29,9 @@ class EventPublisher implements EventPublisherContract
     public function publish(object $event, array $metadata = []): void
     {
         $topic = $this->topics->resolve($event);
-        $pubsubName = $this->config->get('dapr-events.pubsub.name', 'pubsub');
+        $pubsubName = $this->config->get('dapr.pubsub.name', 'pubsub');
         $payload = $this->serializer->serialize($event);
-        $middleware = $this->config->get('dapr-events.publisher.middleware', []);
+        $middleware = $this->config->get('dapr.publisher.middleware', []);
 
         $context = new EventContext(
             $event,

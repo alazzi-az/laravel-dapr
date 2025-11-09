@@ -8,19 +8,19 @@ In **each** Laravel project:
 
 ```bash
 composer require dapr/php-sdk:dev-main --prefer-stable --ignore-platform-reqs
-composer require alazziaz/laravel-dapr-events --ignore-platform-reqs 
-php artisan dapr-events:install
+composer require alazziaz/laravel-dapr --ignore-platform-reqs 
+php artisan dapr:install
 ```
 
 Add the subscriptions route macro (typically in `routes/api.php`):
 
 ```php
-use AlazziAz\DaprEvents\Support\RouteMacros;
+use AlazziAz\LaravelDapr\Support\RouteMacros;
 
 Route::daprSubscriptions();
 ```
 
-Adjust `config/dapr-events.php` if you use a non-default Pub/Sub component name.
+Adjust `config/dapr.php` if you use a non-default Pub/Sub component name.
 
 ## 2. Configure Dapr Pub/Sub
 
@@ -50,7 +50,7 @@ Define an event with a Dapr topic:
 
 ```php
 // app/Events/OrderPlaced.php
-use AlazziAz\DaprEvents\Attributes\Topic;
+use AlazziAz\LaravelDapr\Attributes\Topic;
 
 #[Topic('orders.placed')]
 class OrderPlaced
@@ -69,7 +69,7 @@ Dispatch the event when business logic requires it:
 event(new OrderPlaced($orderId, $amount, 'USD'));
 
 // or explicitly
-app(\AlazziAz\DaprEventsPublisher\EventPublisher::class)
+app(\AlazziAz\LaravelDaprPublisher\EventPublisher::class)
     ->publish(new OrderPlaced($orderId, $amount, 'USD'));
 ```
 
@@ -80,7 +80,7 @@ Create a matching event class (copy the definition above into `notifications-api
 Generate a listener scaffold:
 
 ```bash
-php artisan dapr-events:listener App\\Events\\OrderPlaced
+php artisan dapr:listener App\\Events\\OrderPlaced
 ```
 
 Implement your handler (for example `app/Listeners/OrderPlacedListener.php`):
@@ -126,10 +126,37 @@ When `orders-api` dispatches `OrderPlaced`, Dapr forwards the CloudEvent to `not
 
 ## 6. Security and retries
 
-- Enable request verification by setting `dapr-events.http.verify_signature` and `DAPR_INGRESS_SECRET`.
+- Enable request verification by setting `dapr.http.verify_signature` and `DAPR_INGRESS_SECRET`.
 - Configure retry/backoff/dead-letter policies on the Dapr component; the provided `RetryOnceMiddleware` one-shot retry if you need PHP-level safety.
 
-## 7. Testing
+## 7. Service invocation (optional)
 
-- Use `\AlazziAz\DaprEventsPublisher\Testing\DaprEventFake` to assert that publishing occurred inside feature tests.
-- Simulate ingress posts in the consumer with Pest’s HTTP helpers (`packages/dapr-events-listener/tests/IngressTest.php` contains a reference implementation).
+Install the invoker package if you want Dapr to call Laravel actions directly or if one service needs to invoke another:
+
+```bash
+composer require alazziaz/laravel-dapr-invoker
+```
+
+Register routes so Dapr can reach your handlers:
+
+```php
+Route::daprInvoke([
+    'orders.create' => \App\Http\Controllers\Orders\CreateViaInvoke::class,
+]);
+
+// or rely on configuration and mount the default controller
+Route::daprInvokeController();
+```
+
+Call remote services via the helper:
+
+```php
+$status = dapr_invoke('billing-service', 'health.check');
+```
+
+If you prefer automatic route registration, enable `invocation.auto_register` in `config/dapr-invocation.php` after publishing the config file.
+
+## 8. Testing
+
+- Use `\AlazziAz\LaravelDaprPublisher\Testing\DaprEventFake` to assert that publishing occurred inside feature tests.
+- Simulate ingress posts in the consumer with Pest’s HTTP helpers (`packages/dapr-listener/tests/IngressTest.php` contains a reference implementation).

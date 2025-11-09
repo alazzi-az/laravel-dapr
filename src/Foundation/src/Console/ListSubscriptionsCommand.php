@@ -1,13 +1,13 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Console;
+namespace AlazziAz\LaravelDapr\Console;
 
-use AlazziAz\DaprEvents\Support\SubscriptionRegistry;
+use AlazziAz\LaravelDapr\Support\SubscriptionRegistry;
 use Illuminate\Console\Command;
 
 class ListSubscriptionsCommand extends Command
 {
-    protected $signature = 'dapr-events:list {--json : Output subscriptions as JSON}';
+    protected $signature = 'dapr:list {--json : Output subscriptions as JSON}';
 
     protected $description = 'List the Laravel events exposed to Dapr Pub/Sub.';
 

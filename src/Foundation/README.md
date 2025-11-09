@@ -9,13 +9,13 @@ Shared contracts, configuration, and service provider for bridging Laravel event
 
 ```bash
 composer require alazziaz/laravel-dapr-foundation
-php artisan dapr-events:install
+php artisan dapr:install
 ```
 
 ## Features
 
 - `GET /dapr/subscribe` endpoint declared via `Route::daprSubscriptions()`.
-- Topic resolution based on event class → dotted slug, with overrides via `#[Topic('custom.topic')]` or `config/dapr-events.php`.
+- Topic resolution based on event class → dotted slug, with overrides via `#[Topic('custom.topic')]` or `config/dapr.php`.
 - Queueable listener that republishes local Laravel events through the Dapr publisher (toggle with `publish_local_events`).
 - Contracts for event payload serialization, topic resolution, and publisher bindings.
 - Optional HMAC signature verification for inbound Dapr requests.
@@ -46,15 +46,15 @@ return [
 
 ## Artisan commands
 
-- `dapr-events:install` – publish config and listener stub.
-- `dapr-events:list` – display discovered subscriptions and routes (supports `--json`).
+- `dapr:install` – publish config and listener stub.
+- `dapr:list` – display discovered subscriptions and routes (supports `--json`).
 
 ## Usage
 
 Add the route macro (typically in `routes/api.php`):
 
 ```php
-use AlazziAz\DaprEvents\Support\RouteMacros;
+use AlazziAz\LaravelDapr\Support\RouteMacros;
 
 Route::daprSubscriptions();
 ```

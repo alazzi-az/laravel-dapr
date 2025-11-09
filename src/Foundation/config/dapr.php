@@ -20,12 +20,20 @@ return [
     'listener' => [
         'concurrency' => 1,
         'middleware' => [
-            // \AlazziAz\DaprEventsListener\Middleware\RetryOnceMiddleware::class,
+            // \AlazziAz\LaravelDaprListener\Middleware\RetryOnceMiddleware::class,
         ],
     ],
     'publisher' => [
         'middleware' => [
-            // \AlazziAz\DaprEventsPublisher\Middleware\AddCorrelationId::class,
+            // \AlazziAz\LaravelDaprPublisher\Middleware\AddCorrelationId::class,
         ],
+    ],
+    'health' => [
+        'enabled' => env('DAPR_HEALTH_ENABLED', true),
+        'middleware' => env('DAPR_HEALTH_MIDDLEWARE', '')->split(',') ?: [], // optional
+        // return type: 'empty' or 'json'
+        'response' => env('DAPR_HEALTH_RESPONSE', 'empty'),
+        // a callable class you can override for custom checks (optional)
+        'checker'  => env('DAPR_HEALTH_CHECKER', null), /**  \AlazziAz\LaravelDapr\Support\HealthCheckerInterface::class  */
     ],
 ];

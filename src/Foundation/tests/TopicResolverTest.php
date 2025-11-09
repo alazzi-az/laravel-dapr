@@ -1,11 +1,11 @@
 <?php
 
-use AlazziAz\DaprEvents\Attributes\Topic;
-use AlazziAz\DaprEvents\Support\TopicResolver;
+use AlazziAz\LaravelDapr\Attributes\Topic;
+use AlazziAz\LaravelDapr\Support\TopicResolver;
 use Illuminate\Support\Facades\Config;
 
 it('resolves topic from config override', function () {
-    Config::set('dapr-events.topics', [
+    Config::set('dapr.topics', [
         ConfigDrivenEvent::class => 'custom.topic',
     ]);
 
@@ -15,7 +15,7 @@ it('resolves topic from config override', function () {
 });
 
 it('resolves topic from attribute', function () {
-    Config::set('dapr-events.topics', []);
+    Config::set('dapr.topics', []);
 
     $resolver = app(TopicResolver::class);
 
@@ -23,7 +23,7 @@ it('resolves topic from attribute', function () {
 });
 
 it('generates snake dotted fallback topic', function () {
-    Config::set('dapr-events.topics', []);
+    Config::set('dapr.topics', []);
 
     $resolver = app(TopicResolver::class);
 

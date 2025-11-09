@@ -1,9 +1,9 @@
 <?php
 
-namespace AlazziAz\DaprEvents\Publishing\Listeners;
+namespace AlazziAz\LaravelDapr\Publishing\Listeners;
 
-use AlazziAz\DaprEvents\Contracts\EventPublisher;
-use AlazziAz\DaprEvents\Support\IngressContext;
+use AlazziAz\LaravelDapr\Contracts\EventPublisher;
+use AlazziAz\LaravelDapr\Support\IngressContext;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;

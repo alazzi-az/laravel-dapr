@@ -1,6 +1,6 @@
 <?php
 
-namespace AlazziAz\DaprEventsPublisher\Publishing;
+namespace AlazziAz\LaravelDaprPublisher\Publishing;
 
 use Closure;
 use Illuminate\Pipeline\Pipeline;
