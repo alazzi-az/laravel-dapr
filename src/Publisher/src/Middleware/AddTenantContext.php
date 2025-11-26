@@ -19,6 +19,7 @@ class AddTenantContext implements PublisherMiddleware
             $context->setMetadata($metadata);
         }
 
+
         return $next($context);
     }
 
