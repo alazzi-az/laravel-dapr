@@ -77,7 +77,7 @@ $response = dapr_invoke('billing-service', 'health.check');
 
 Set `invocation.auto_register` to `true` in `config/dapr-invocation.php` if you want the default `/dapr/invoke/{method}` route to be registered automatically when the service provider boots.
 
-See [`laravel-invoker'](https://github.com/alazzi-az/laravel-dapr-invoker/README.md') for more details.
+See [`laravel-invoker'](https://github.com/alazzi-az/laravel-dapr-invoker/blob/main/README.md') for more details.
 
 ## PHP compatibility with `dapr/php-sdk`
 
