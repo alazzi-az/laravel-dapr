@@ -4,6 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/alazziaz/laravel-dapr.svg)](https://packagist.org/packages/alazziaz/laravel-dapr)
 
 Laravel-friendly tooling for publishing and consuming framework events over [Dapr Pub/Sub](https://docs.dapr.io/developing-applications/building-blocks/pubsub/), mirroring the developer ergonomics of while swapping RabbitMQ, kafka transport for the Dapr sidecar.
+
 ## Packages
 
 - **`alazziaz/laravel-dapr`** – metapackage that installs all components in one go.
@@ -17,6 +18,7 @@ Install the metapackage for the full experience:
 ```bash
 composer require alazziaz/laravel-dapr
 ```
+
 - **if you face any issues with php version, only add --ignore-platform-reqs flag to the above command this issue related to dapr-php-sdk package.**
 
 ## Highlights
@@ -37,9 +39,24 @@ Looking for a full end-to-end demo? Check out the companion repo: [mohammedazman
 
 ## Service invocation
 
-You can invoke any laravel route/method via Dapr service invocation. To do this, create an invokable handler:
+Laravel’s Dapr Invoker allows you to expose invokable endpoints that can be called through Dapr’s service invocation API.
 
-```php
+> **Important:**
+> If you are invoking your Laravel service through Dapr (e.g., `/dapr/invoke/{method}`),
+> you **must disable CSRF protection** for this prefix.
+> Add the following to your global middleware configuration:
+>
+> ```php
+> $middleware->validateCsrfTokens(except: [
+>     'dapr/invoke/*',
+> ]);
+> ```
+>
+> Dapr requests are stateless and do not include CSRF tokens, so CSRF must be excluded.
+
+---
+
+You can invoke any laravel route/method via Dapr service invocation. To do this, create an invokable handler:
 
 Register invokable handlers in your Laravel routes:
 
@@ -61,28 +78,34 @@ $response = dapr_invoke('billing-service', 'health.check');
 Set `invocation.auto_register` to `true` in `config/dapr-invocation.php` if you want the default `/dapr/invoke/{method}` route to be registered automatically when the service provider boots.
 
 See [`laravel-invoker'](https://github.com/alazzi-az/laravel-dapr-invoker/README.md') for more details.
+
 ## PHP compatibility with `dapr/php-sdk`
 
 The official Dapr PHP SDK only ships development builds right now and its `dev-main` branch targets PHP 8.4. Until upstream tags a stable release, you have two practical options when installing these packages:
 
 1. Allow dev dependencies for the SDK in your consuming application:
+
    ```json
    {
-       "minimum-stability": "dev",
-       "prefer-stable": true
+     "minimum-stability": "dev",
+     "prefer-stable": true
    }
    ```
+
    or require the SDK explicitly with a dev constraint:
+
    ```php
    composer require dapr/php-sdk:dev-main --prefer-stable --ignore-platform-reqs
    ```
+
    or add to your `composer.json`:
+
    ```json
    {
-       "require": {
-           "dapr/php-sdk": "dev-main"
-       },
-       "prefer-stable": true
+     "require": {
+       "dapr/php-sdk": "dev-main"
+     },
+     "prefer-stable": true
    }
    ```
 

@@ -8,7 +8,7 @@ In **each** Laravel project:
 
 ```bash
 composer require dapr/php-sdk:dev-main --prefer-stable --ignore-platform-reqs
-composer require alazziaz/laravel-dapr --ignore-platform-reqs 
+composer require alazziaz/laravel-dapr --ignore-platform-reqs
 php artisan dapr:install
 ```
 
@@ -147,6 +147,21 @@ Route::daprInvoke([
 // or rely on configuration and mount the default controller
 Route::daprInvokeController();
 ```
+
+> **Important – CSRF Exclusion Required:**
+> Dapr service invocation is stateless and does not include CSRF tokens.
+> To allow Dapr to call your Laravel handlers (e.g., /dapr/invoke/{method}),
+> you must disable CSRF protection for that prefix:
+>
+> ```php
+>
+> $middleware->validateCsrfTokens(except: [
+>   'dapr/invoke/*',
+> ]);
+> ```
+>
+> Without this, POST/PUT/PATCH/>DELETE requests invoked through Dapr
+> will fail with: 419 CSRF token mismatch.
 
 Call remote services via the helper:
 
