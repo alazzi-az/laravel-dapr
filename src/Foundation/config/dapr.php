@@ -13,6 +13,10 @@ return [
         'signature_header' => 'x-dapr-signature',
         'signature_secret' => env('DAPR_INGRESS_SECRET'),
     ],
+    'client'=>[
+        'timeout'=>env('DAPR_CLIENT_TIMEOUT', 10),
+        'connect_timeout'=>env('DAPR_CLIENT_CONNECT_TIMEOUT', 10)
+    ],
     'serialization' => [
         'wrap_cloudevent' => true,
     ],
