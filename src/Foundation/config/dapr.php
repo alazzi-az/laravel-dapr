@@ -57,5 +57,10 @@ return [
             // 'service.method' => App\Http\Controllers\InvokeTargetController::class,
             // 'orders.create' => [App\Http\Controllers\OrderController::class, 'createViaInvoke'],
         ],
-    ]
+    ],
+    'invoker' => [
+        'middleware' => [
+            // \App\Dapr\Invoker\Middleware\AddJwtAuthorization::class,
+        ],
+    ],
 ];
