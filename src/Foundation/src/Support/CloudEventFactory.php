@@ -2,6 +2,7 @@
 
 namespace AlazziAz\LaravelDapr\Support;
 
+use Dapr\PubSub\Publish;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -20,22 +21,21 @@ class CloudEventFactory
         return (bool) $this->config->get('dapr.serialization.wrap_cloudevent', true);
     }
 
-    public function make(object $event, array $payload, array $metadata = []): array
+    public function make(array $metadata = []): array
     {
-        $topic = $this->topics->resolve($event);
+        $contentType = $this->getContentType();
 
-        $extensions = Arr::except($metadata, ['id', 'time', 'type', 'source', 'specversion']);
+        if ($this->shouldWrap()) {
+            return [
+                ...$metadata,
+                'contentType' => $contentType,
+            ];
+        }
 
         return [
-            'specversion' => '1.0',
-            'id' => $metadata['id'] ?? (string) Str::uuid(),
-            'source' => $metadata['source'] ?? config('app.url', 'laravel://dapr'),
-            'type' => $metadata['type'] ?? $event::class,
-            'time' => $this->formatTime($metadata['time'] ?? Carbon::now()),
-            'datacontenttype' => 'application/json',
-            'subject' => $topic,
-            'data' => $payload,
-            'extensions' => $extensions,
+            ...$metadata,
+            'rawPayload' => 'true',
+            'contentType' => $contentType,
         ];
     }
 
@@ -58,5 +58,12 @@ class CloudEventFactory
         }
 
         return Carbon::now()->toRfc3339String();
+    }
+
+    public function getContentType(): string
+    {
+        return $this->shouldWrap()
+            ? 'application/cloudevents+json'
+            : 'application/json';
     }
 }

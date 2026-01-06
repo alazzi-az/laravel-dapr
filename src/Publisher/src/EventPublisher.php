@@ -15,15 +15,16 @@ use Illuminate\Support\Facades\Log;
 class EventPublisher implements EventPublisherContract
 {
     protected DaprClient $client;
-    public function __construct(
 
-        protected TopicResolver $topics,
+    public function __construct(
+        protected TopicResolver          $topics,
         protected EventPayloadSerializer $serializer,
-        protected CloudEventFactory $cloudEvents,
-        protected EventPipeline $pipeline,
-        protected Repository $config
-    ) {
-        $this->client = \Dapr\Client\DaprClient::clientBuilder()->build();
+        protected CloudEventFactory      $cloudEvents,
+        protected EventPipeline          $pipeline,
+        protected Repository             $config
+    )
+    {
+        $this->client = DaprClient::clientBuilder()->build();
     }
 
     public function publish(object $event, array $metadata = []): void
@@ -43,22 +44,25 @@ class EventPublisher implements EventPublisherContract
 
         $context = $this->pipeline->send($context, $middleware);
 
-        $body = $this->cloudEvents->shouldWrap()
-            ? $this->cloudEvents->make($event, $context->payload(), $context->metadata())
-            : $context->payload();
+        $metadata = $this->cloudEvents->shouldWrap()
+            ? $context->metadata()
+            : $this->cloudEvents->make($context->metadata());
+
+        $contentType = $this->cloudEvents->getContentType();
 
         $this->client->publishEvent(
-            $context->pubsubName(),
-            $context->topic(),
-            $body,
-            $context->metadata()
+            pubsubName: $context->pubsubName(),
+            topicName: $context->topic(),
+            data: $context->payload(),
+            metadata: $metadata,
+            contentType: $contentType
         );
 
         Log::info('Published event to Dapr.', [
             'event_class' => $event::class,
             'topic' => $context->topic(),
             'pubsub' => $context->pubsubName(),
-            'metadata' => $context->metadata(),
+            'metadata' => $metadata,
         ]);
     }
 }
