@@ -44,9 +44,7 @@ class EventPublisher implements EventPublisherContract
 
         $context = $this->pipeline->send($context, $middleware);
 
-        $metadata = $this->cloudEvents->shouldWrap()
-            ? $context->metadata()
-            : $this->cloudEvents->make($context->metadata());
+        $metadata = $this->cloudEvents->make($context->metadata());
 
         $contentType = $this->cloudEvents->getContentType();
 
