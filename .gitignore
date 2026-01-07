@@ -9,3 +9,4 @@ test_apps/*
 internal_docs
 internal_docs/*
 .env
+./vendor

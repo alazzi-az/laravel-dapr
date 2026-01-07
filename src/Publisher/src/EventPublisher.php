@@ -9,6 +9,7 @@ use AlazziAz\LaravelDapr\Support\TopicResolver;
 use AlazziAz\LaravelDaprPublisher\Publishing\EventContext;
 use AlazziAz\LaravelDaprPublisher\Publishing\EventPipeline;
 use Dapr\Client\DaprClient;
+use Dapr\PubSub\Topic;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Log;
 
@@ -42,19 +43,34 @@ class EventPublisher implements EventPublisherContract
             $metadata
         );
 
+
         $context = $this->pipeline->send($context, $middleware);
 
-        $metadata = $this->cloudEvents->make($context->metadata());
+        $metadata = $this->cloudEvents->make($event,$context->metadata());
 
         $contentType = $this->cloudEvents->getContentType();
-
-        $this->client->publishEvent(
-            pubsubName: $context->pubsubName(),
-            topicName: $context->topic(),
-            data: $context->payload(),
-            metadata: $metadata,
-            contentType: $contentType
+        $topic = new Topic(
+            $context->pubsubName(),
+            $context->topic(),
+            $this->client
         );
+
+        $topic->publish(
+            $context->payload(),
+            $metadata,
+            $contentType
+        );
+
+
+//        $this->client->publishEvent(
+//            pubsubName: $c1ontext->pubsubName(),
+//            topicName: $context->topic(),
+//            data: [
+//                'data' => $context->payload(),
+//            ],
+//            metadata: $metadata,
+//            contentType: $contentType
+//        );
 
         Log::info('Published event to Dapr.', [
             'event_class' => $event::class,
